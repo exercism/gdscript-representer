@@ -1,1 +1,20 @@
-
+start
+  func_def
+    func_header
+      FUNC_001
+      func_args
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_001
+        expr
+          arith_expr
+            1
+            +
+            2
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_002
+        expr
+          string	"Hello World"
+    return_stmt
+      expr	FUNCVAR_001

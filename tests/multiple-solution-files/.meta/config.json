@@ -1,0 +1,13 @@
+{
+  "authors": [
+    "person"
+  ],
+  "files": {
+    "solution": [
+      "one.gd",
+      "two.gd"
+    ],
+    "test": [],
+    "example": []
+  }
+}

@@ -1,1 +1,17 @@
+start
+  func_def
+    func_header
+      FUNC_001
+      func_args
+    return_stmt
+      expr	1
 
+
+start
+  func_def
+    func_header
+      FUNC_002
+      func_args
+    return_stmt
+      expr
+        string	"Hello"
