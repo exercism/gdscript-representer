@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Generate a representation of a GDScript solution."""
 
 import argparse
 import json
@@ -8,7 +9,9 @@ import sys
 import gdtoolkit.parser
 from lark import Token, Tree
 
+
 def load_config(input_path: pathlib.Path) -> dict | None:
+    """Return the contents of .meta/config.json if it exists, or None."""
     config_path = input_path / ".meta/config.json"
     if not config_path.exists():
         return None
@@ -16,6 +19,7 @@ def load_config(input_path: pathlib.Path) -> dict | None:
 
 
 def solution_files(slug: str, input_path: pathlib.Path) -> list[pathlib.Path]:
+    """Return the solution files, based on the config.json if available, or the slug."""
     config = load_config(input_path)
     if config:
         files = config.get("files", {}).get("solution", [])
@@ -25,6 +29,7 @@ def solution_files(slug: str, input_path: pathlib.Path) -> list[pathlib.Path]:
 
 
 def load_ast(slug: str, input_path: pathlib.Path) -> list[Tree]:
+    """Return the AST Trees for each solution file."""
     return [
         gdtoolkit.parser.parser.parse(file.read_text())
         for file in solution_files(slug, input_path)
@@ -32,7 +37,10 @@ def load_ast(slug: str, input_path: pathlib.Path) -> list[Tree]:
 
 
 def drop_docstr(trees: list[Tree]) -> list[Tree]:
-    def skip(t):
+    """Remove module docstrings and string-statements from the AST."""
+
+    def skip(t: Tree | Token) -> bool:
+        """Return if a node should be skipped."""
         if isinstance(t, Tree) and t.data == "docstr_stmt":
             return True
         if (
@@ -48,7 +56,8 @@ def drop_docstr(trees: list[Tree]) -> list[Tree]:
             return True
         return False
 
-    def translate(t):
+    def translate(t: Tree | Token) -> Tree | Token:
+        """Return a node, removing docstrings."""
         if isinstance(t, Token):
             return t
         elif isinstance(t, Tree):
@@ -60,6 +69,7 @@ def drop_docstr(trees: list[Tree]) -> list[Tree]:
 
 
 def replace_func_names(trees: list[Tree]) -> tuple[list[Tree], dict[str, str]]:
+    """Replace custom function names with placeholders."""
     varmap = {}
     for tree in trees:
         func_names = [
@@ -85,6 +95,10 @@ def replace_func_names(trees: list[Tree]) -> tuple[list[Tree], dict[str, str]]:
 
 
 def replace_var_names(trees: list[Tree]) -> tuple[list[Tree], dict[str, str]]:
+    """Replace function variables with placeholders.
+
+    This does not handle constants and module level variables.
+    """
     varmap = {}
     for tree in trees:
         func_vars = [
@@ -112,8 +126,9 @@ def replace_var_names(trees: list[Tree]) -> tuple[list[Tree], dict[str, str]]:
 
 
 def write_output(output_path: pathlib.Path, trees: list[Tree], varmap: dict[str, str]) -> None:
+    """Write the representer files."""
     if not output_path.exists():
-        output_path.mkdir(parents=Tree, exist_ok=True)
+        output_path.mkdir(parents=True, exist_ok=True)
 
     (output_path / "representation.json").write_text(json.dumps({"version": 1}, indent=2) + "\n")
     (output_path / "mapping.json").write_text(json.dumps(varmap, indent=2, sort_keys=True) + "\n")
@@ -122,6 +137,7 @@ def write_output(output_path: pathlib.Path, trees: list[Tree], varmap: dict[str,
 
 
 def arg_parser() -> argparse.ArgumentParser:
+    """Return an ArgumentParser."""
     parser = argparse.ArgumentParser()
     parser.add_argument("slug")
     parser.add_argument("input_dir")
@@ -130,6 +146,7 @@ def arg_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    """Generate a representation."""
     args = arg_parser().parse_args()
     input_path = pathlib.Path(args.input_dir)
     output_path = pathlib.Path(args.output_dir)

@@ -2,28 +2,22 @@
 
 The Docker image to automatically create a representation for GDScript solutions submitted to [Exercism].
 
-## Getting started
+## Implementation Details
 
-Build the representer, conforming to the [Representer interface specification](https://github.com/exercism/docs/blob/main/building/tooling/representers/interface.md).
-Update the files to match your track's needs. At the very least, you'll need to update `bin/run.sh`, `Dockerfile` and the test solutions in the `tests` directory.
-The existing test solutions are suggestions for you could be testing, but remember to add your track-specific files too
+The representer is written in Python.
+It relies on `gdtoolkit 4.5.0` and `lark 1.3.1`.
+It represents the solution using Lark's `pretty()` output.
 
-- Tip: look for `TODO:` comments to point you towards code that need updating
-- Tip: look for `OPTIONAL:` comments to point you towards code that _could_ be useful
+### Normalizations
 
-### Default Implementation
-
-The default implementation should work as follows:
-
-- The `representation.txt` contains the concatenated solution files
-  - Solution files are separated by an empty line
-  - Solution files are identified via the the `.files.solution[]` property in the `.meta/config.json` file
-- The `mapping.json` contains an empty JSON object (`{}`)
-
-#### Normalizations
-
-- Blank files in the solution files are removed in the `representation.txt`
-- Line-based trailing whitespace in the solution files is removed in the `representation.txt`
+* **Comments:** The generated AST does not include comments so comments are removed.
+* **Whitespace:** The generated AST does not include input whitespace so whitespace is normalized.
+* **Docstrings:** Module docstrings are dropped from the output.
+* **String expressions:** Function docstrings are treated as any "string expression".
+  String expressions (expressions that contain only a string) are dropped.
+* **Variable names:** Function variables are replaced with placeholders.
+  This does not cover module variables or class variables.
+* **Function names:** User defined functions have their names replaced with placeholders.
 
 ## Run the representer
 
@@ -81,4 +75,4 @@ Bear in mind though that the performance on Exercism's production servers is oft
 
 [representers]: https://github.com/exercism/docs/tree/main/building/tooling/representers
 [golden]: https://ro-che.info/articles/2017-12-04-golden-tests
-[exercism]: https://exercism.io
+[exercism]: https://exercism.org
