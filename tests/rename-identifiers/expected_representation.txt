@@ -1,0 +1,34 @@
+start
+  func_def
+    func_header
+      FUNC_001
+      func_args
+        func_arg_typed
+          FUNCVAR_001
+          str
+        func_arg_regular	FUNCVAR_002
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_003
+        expr
+          string	"Hello "
+    expr_stmt
+      expr
+        standalone_call
+          print
+          arith_expr
+            FUNCVAR_003
+            +
+            FUNCVAR_001
+            +
+            FUNCVAR_002
+  func_def
+    func_header
+      FUNC_002
+      func_args
+    expr_stmt
+      expr
+        standalone_call
+          FUNC_001
+          string	"Bob"
+          string	"!"
