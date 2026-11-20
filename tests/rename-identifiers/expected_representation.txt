@@ -3,9 +3,7 @@ start
     func_header
       FUNC_001
       func_args
-        func_arg_typed
-          FUNCVAR_001
-          str
+        func_arg_regular	FUNCVAR_001
         func_arg_regular	FUNCVAR_002
     func_var_stmt
       func_var_assigned

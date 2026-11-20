@@ -1,0 +1,34 @@
+start
+  func_def
+    func_header
+      FUNC_001
+      func_args
+    pass_stmt
+  func_def
+    func_header
+      FUNC_002
+      func_args
+        func_arg_regular	FUNCVAR_001
+        func_arg_regular	FUNCVAR_002
+    pass_stmt
+  func_def
+    func_header
+      FUNC_003
+      func_args
+        func_arg_regular	FUNCVAR_001
+        func_arg_regular	FUNCVAR_002
+    pass_stmt
+  func_def
+    func_header
+      FUNC_004
+      func_args
+        func_arg_regular	FUNCVAR_001
+        func_arg_regular	FUNCVAR_002
+    pass_stmt
+  func_def
+    func_header
+      FUNC_005
+      func_args
+        func_arg_regular	FUNCVAR_001
+        func_arg_regular	FUNCVAR_002
+    pass_stmt

@@ -24,10 +24,11 @@ for test_dir in tests/*; do
         expected_file="expected_${file}"
         echo "${test_dir_name}: comparing ${file} to ${expected_file}"
 
+	[ "$1" = "update" ] && cp "${test_dir_path}/${file}" "${test_dir_path}/${expected_file}"
         if ! diff "${test_dir_path}/${expected_file}" "${test_dir_path}/${file}"; then
             exit_code=1
         fi
     done
 done
 
-exit ${exit_code}
+exit "${exit_code}"
