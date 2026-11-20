@@ -149,7 +149,8 @@ def write_output(output_path: pathlib.Path, trees: list[Tree], varmap: dict[str,
     if not output_path.exists():
         output_path.mkdir(parents=True, exist_ok=True)
 
-    (output_path / "representation.json").write_text(json.dumps({"version": 1}, indent=2) + "\n")
+    version = (pathlib.Path(__file__).parent.parent / "VERSION").read_text().strip()
+    (output_path / "representation.json").write_text(json.dumps({"version": version}, indent=2) + "\n")
     (output_path / "mapping.json").write_text(json.dumps(varmap, indent=2, sort_keys=True) + "\n")
     (output_path / "representation.txt").write_text("\n\n".join(tree.pretty() for tree in trees))
 
