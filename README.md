@@ -21,6 +21,7 @@ The `VERSION` file should be changed any time the representation is updated.
   This does not cover module variables or class variables.
 * **Function names:** User defined functions have their names replaced with placeholders.
 * **Type hints:** Function argument types and function return types are removed.
+  Variable types are stripped.
 
 ## Run the representer
 

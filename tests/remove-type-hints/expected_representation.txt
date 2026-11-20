@@ -3,32 +3,63 @@ start
     func_header
       FUNC_001
       func_args
-    pass_stmt
+        func_arg_regular	FUNCVAR_001
+        func_arg_regular	FUNCVAR_002
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_003
+        expr
+          arith_expr
+            FUNCVAR_001
+            +
+            FUNCVAR_002
+    return_stmt
+      expr	FUNCVAR_003
   func_def
     func_header
-      FUNC_002
+      FUNC_001
       func_args
         func_arg_regular	FUNCVAR_001
         func_arg_regular	FUNCVAR_002
-    pass_stmt
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_003
+        expr
+          arith_expr
+            FUNCVAR_001
+            +
+            FUNCVAR_002
+    return_stmt
+      expr	FUNCVAR_003
   func_def
     func_header
-      FUNC_003
+      FUNC_001
       func_args
         func_arg_regular	FUNCVAR_001
         func_arg_regular	FUNCVAR_002
-    pass_stmt
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_003
+        expr
+          arith_expr
+            FUNCVAR_001
+            +
+            FUNCVAR_002
+    return_stmt
+      expr	FUNCVAR_003
   func_def
     func_header
-      FUNC_004
+      FUNC_001
       func_args
         func_arg_regular	FUNCVAR_001
         func_arg_regular	FUNCVAR_002
-    pass_stmt
-  func_def
-    func_header
-      FUNC_005
-      func_args
-        func_arg_regular	FUNCVAR_001
-        func_arg_regular	FUNCVAR_002
-    pass_stmt
+    func_var_stmt
+      func_var_assigned
+        FUNCVAR_003
+        expr
+          arith_expr
+            FUNCVAR_001
+            +
+            FUNCVAR_002
+    return_stmt
+      expr	FUNCVAR_003

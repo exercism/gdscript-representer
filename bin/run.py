@@ -39,18 +39,20 @@ def load_ast(slug: str, input_path: pathlib.Path) -> list[Tree]:
 def drop_type_hints(trees: list[Tree]) -> list[Tree]:
     """Remove type hints from the AST."""
 
+    tree_data_map = {
+        "func_arg_typed": "func_arg_regular",
+        "func_var_inf": "func_var_assigned",
+        "func_var_typed_assgnd": "func_var_assigned",
+    }
+
     def translate(t: Tree | Token) -> Tree | Token:
         """Return a node, removing docstrings."""
         if isinstance(t, Token):
             return t
-        elif isinstance(t, Tree):
-            if t.data == "func_header":
-                return Tree(t.data, [translate(i) for i in t.children if not (isinstance(i, Token) and i.type == "TYPE_HINT")])
-            if t.data == "func_arg_typed":
-                return Tree("func_arg_regular", [i for i in t.children if i.type != "TYPE_HINT"])
-            return Tree(t.data, [translate(i) for i in t.children])
-        else:
-            raise ValueError(t)
+        if isinstance(t, Tree):
+            filtered_children = [translate(i) for i in t.children if not (isinstance(i, Token) and i.type == "TYPE_HINT")]
+            return Tree(tree_data_map.get(t.data, t.data), filtered_children)
+        raise ValueError(t)
 
     return [translate(tree) for tree in trees]
 
