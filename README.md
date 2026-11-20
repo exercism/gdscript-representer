@@ -8,6 +8,8 @@ The representer is written in Python.
 It relies on `gdtoolkit 4.5.0` and `lark 1.3.1`.
 It represents the solution using Lark's `pretty()` output.
 
+The `VERSION` file should be changed any time the representation is updated.
+
 ### Normalizations
 
 * **Comments:** The generated AST does not include comments so comments are removed.
@@ -18,6 +20,7 @@ It represents the solution using Lark's `pretty()` output.
 * **Variable names:** Function variables are replaced with placeholders.
   This does not cover module variables or class variables.
 * **Function names:** User defined functions have their names replaced with placeholders.
+* **Type hints:** Function argument types and function return types are removed.
 
 ## Run the representer
 
