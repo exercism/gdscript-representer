@@ -36,6 +36,25 @@ def load_ast(slug: str, input_path: pathlib.Path) -> list[Tree]:
     ]
 
 
+def drop_type_hints(trees: list[Tree]) -> list[Tree]:
+    """Remove type hints from the AST."""
+
+    def translate(t: Tree | Token) -> Tree | Token:
+        """Return a node, removing docstrings."""
+        if isinstance(t, Token):
+            return t
+        elif isinstance(t, Tree):
+            if t.data == "func_header":
+                return Tree(t.data, [translate(i) for i in t.children if not (isinstance(i, Token) and i.type == "TYPE_HINT")])
+            if t.data == "func_arg_typed":
+                return Tree("func_arg_regular", [i for i in t.children if i.type != "TYPE_HINT"])
+            return Tree(t.data, [translate(i) for i in t.children])
+        else:
+            raise ValueError(t)
+
+    return [translate(tree) for tree in trees]
+
+
 def drop_docstr(trees: list[Tree]) -> list[Tree]:
     """Remove module docstrings and string-statements from the AST."""
 
@@ -154,6 +173,7 @@ def main() -> None:
     print(f"== Creating representation for {args.slug!r} ==")
     trees = load_ast(args.slug, input_path)
     trees = drop_docstr(trees)
+    trees = drop_type_hints(trees)
     trees, varmap = replace_var_names(trees)
     trees, funcmap = replace_func_names(trees)
     write_output(output_path, trees, varmap | funcmap)
