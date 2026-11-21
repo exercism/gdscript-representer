@@ -31,4 +31,10 @@ for test_dir in tests/*; do
     done
 done
 
+# These tests have multiple functions.
+# After applying normalization, all the functions in these files should be exact matches.
+for i in normalize-whitespace remove-type-hints; do
+    python3 bin/test_funcs_match.py "tests/${i}/expected_representation.txt"
+done
+
 exit "${exit_code}"
