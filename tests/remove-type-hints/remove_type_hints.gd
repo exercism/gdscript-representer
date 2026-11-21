@@ -1,18 +1,18 @@
-func func1() -> String:
-	pass
+func func(a, b) -> String:
+	var c = a + b
+	return c
 
 
-func func2(a, b) -> String:
-	pass
+func func(a: String, b):
+	var c: String = a + b
+	return c
 
 
-func func3(a: int, b):
-	pass
+func func(a, b: String) -> String:
+	var c := a + b
+	return c
 
 
-func func4(a, b: String) -> String:
-	pass
-
-
-func func5(a: int, b: String):
-	pass
+func func(a: String, b: String):
+	var c = a + b
+	return c

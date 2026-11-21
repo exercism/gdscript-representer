@@ -1,9 +1,6 @@
 {
   "FUNCVAR_001": "a",
   "FUNCVAR_002": "b",
-  "FUNC_001": "func1",
-  "FUNC_002": "func2",
-  "FUNC_003": "func3",
-  "FUNC_004": "func4",
-  "FUNC_005": "func5"
+  "FUNCVAR_003": "c",
+  "FUNC_001": "func"
 }
