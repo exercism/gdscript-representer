@@ -1,0 +1,30 @@
+name: Require Version Bump
+
+on:
+  pull_request:
+    paths:
+      - "tests/*/expected_representation.json"
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to compare against the base branch
+
+      - name: Verify version changed
+        run: |
+          BASE_REF="origin/${{ github.base_ref }}"
+
+          # Example: comparing a plain VERSION file
+          OLD_VER=$(git show "$BASE_REF:VERSION" 2>/dev/null || echo "")
+          NEW_VER=$(cat VERSION)
+
+          if [ "$OLD_VER" = "$NEW_VER" ]; then
+            echo "Error: Representations changed, but VERSION ($NEW_VER) was not updated."
+            exit 1
+          fi
+          echo "Version updated: $OLD_VER -> $NEW_VER"
+
