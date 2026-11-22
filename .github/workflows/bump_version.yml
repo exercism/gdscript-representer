@@ -3,7 +3,7 @@ name: Require Version Bump
 on:
   pull_request:
     paths:
-      - "tests/*/expected_representation.json"
+      - "tests/*/expected_representation.txt"
 
 jobs:
   check-version:
